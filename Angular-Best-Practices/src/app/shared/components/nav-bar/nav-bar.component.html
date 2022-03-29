@@ -1,0 +1,15 @@
+<div class="topnav">
+  <div>
+    <a
+      *ngFor="let routing of routings"
+      [routerLink]="routing.url"
+    >
+      {{routing.name}}
+    </a>
+  </div>
+
+  <button
+    mat-raised-button
+    (click)="logout()"
+  >Logout</button>
+</div>
