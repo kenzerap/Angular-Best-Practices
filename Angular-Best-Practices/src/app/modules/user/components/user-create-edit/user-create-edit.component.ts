@@ -15,13 +15,12 @@ import * as fromUser from '@app/modules/user/store/reducers';
 })
 export class UserCreateEditComponent implements OnInit, OnDestroy {
 
-  userGuid: string;
+  userId: string;
   userDetail$: Observable<User> = this.store.pipe(select(fromUser.selectUserDetail));
   loading$: Observable<boolean> = this.store.pipe(select(fromUser.selectLoading));
   completionSubject = new Subject();
 
   formGroup: FormGroup = this.fb.group({
-    id: [null],
     name: [null, [Validators.required]],
     phone: [null],
     email: [null, [Validators.required, Validators.email]],
@@ -39,9 +38,9 @@ export class UserCreateEditComponent implements OnInit, OnDestroy {
     this.activatedRoute.params.pipe(
       filter((param: Params) => !!param.userId)
     ).subscribe((param: Params) => {
-      this.userGuid = param.userId;
+      this.userId = param.userId;
 
-      this.store.dispatch(UserActions.getUserDetail({ userId: this.userGuid }));
+      this.store.dispatch(UserActions.getUserDetail({ userId: this.userId }));
     });
   }
 
@@ -54,7 +53,12 @@ export class UserCreateEditComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-    this.store.dispatch(UserActions.createUser({ user: this.formGroup.value }));
+    if (this.userId) {
+      const userInfo = { ... this.formGroup.value, id: this.userId }
+      this.store.dispatch(UserActions.editUser({ user: userInfo }));
+    } else {
+      this.store.dispatch(UserActions.createUser({ user: this.formGroup.value }));
+    }
   }
 
   back() {

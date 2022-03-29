@@ -35,8 +35,8 @@ export class UserApiService {
       .post<User>(url, user)
   }
 
-  public editUser(user: User): Observable<User> {
-    const url = `${this.baseUrl}/${user.guid}`
+  public editUser(user: any): Observable<User> {
+    const url = `${this.baseUrl}/${user.id}`
     return this.httpClient
       .put<User>(url, user)
   }

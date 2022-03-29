@@ -1,4 +1,4 @@
-<h1>{{userGuid ? 'Edit' : 'Create'}} user:</h1>
+<h1>{{userId ? 'Edit' : 'Create'}} user:</h1>
 
 <form
   [formGroup]="formGroup"
@@ -100,7 +100,7 @@
     (click)="submit()"
     [disabled]="formGroup.invalid || (loading$ | async)"
   >
-    {{userGuid ? 'Save' : 'Create'}}
+    {{userId ? 'Save' : 'Create'}}
   </button>
 
   <button
